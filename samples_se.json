@@ -1,0 +1,252 @@
+{
+    "virilis_AG_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_AG_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_AG_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_AG_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_EB_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_EB_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_EB_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_EB_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_carcass_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_carcass_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_carcass_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_carcass_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_female_abdomen_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_abdomen_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_female_abdomen_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_abdomen_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_female_abdomen_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_abdomen_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_female_digestive_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_digestive_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_female_digestive_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_digestive_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_female_digestive_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_digestive_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_female_gonad_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_gonad_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_female_gonad_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_gonad_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_female_gonad_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_gonad_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_female_head_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_head_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_female_head_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_head_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_female_head_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_head_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_female_repTract_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_repTract_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_female_repTract_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_repTract_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_female_repTract_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_repTract_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_female_thorax_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_thorax_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_female_thorax_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_thorax_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_female_thorax_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_thorax_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_female_whole_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_whole_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_female_whole_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_whole_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_female_whole_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_female_whole_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_male_abdomen_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_abdomen_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_male_abdomen_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_abdomen_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_male_abdomen_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_abdomen_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_male_digestive_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_digestive_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_male_digestive_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_digestive_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_male_digestive_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_digestive_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_male_gonad_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_gonad_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_male_gonad_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_gonad_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_male_gonad_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_gonad_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_male_head_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_head_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_male_head_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_head_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_male_head_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_head_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_male_repTract_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_repTract_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_male_repTract_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_repTract_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_male_repTract_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_repTract_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_male_thorax_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_thorax_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_male_thorax_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_thorax_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_male_thorax_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_thorax_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_male_whole_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_whole_rep1.R1.fq.gz"
+        ]
+    },
+    "virilis_male_whole_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_whole_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_male_whole_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data1/ya76/virilis_MF_reads/virilis_male_whole_rep3.R1.fq.gz"
+        ]
+    },
+    "virilis_testes_rep2": {
+        "R1": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_testes_rep2.R1.fq.gz"
+        ]
+    },
+    "virilis_testes_rep3": {
+        "R1": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_testes_rep3.R1.fq.gz"
+        ]
+    }
+}

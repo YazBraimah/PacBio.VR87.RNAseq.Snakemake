@@ -1,0 +1,26 @@
+{
+    "virilis_AG_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_AG_rep1.R1.fq.gz"
+        ],
+        "R2": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_AG_rep1.R2.fq.gz"
+        ]
+    },
+    "virilis_carcass_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_carcass_rep1.R1.fq.gz"
+        ],
+        "R2": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_carcass_rep1.R2.fq.gz"
+        ]
+    },
+    "virilis_testes_rep1": {
+        "R1": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_testes_rep1.R1.fq.gz"
+        ],
+        "R2": [
+            "/fs/cbsufsrv5/data2/ya76/Virilis_group_Stuff/Male_RNAseq/READS/virilis_testes_rep1.R2.fq.gz"
+        ]
+    }
+}
