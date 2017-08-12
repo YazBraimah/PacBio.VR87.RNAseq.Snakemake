@@ -35,7 +35,7 @@ configfile: 'config.yml'
 DNA = config['DNA']
 
 # Full path to an uncompressed GTF file with known gene annotations.
-GTF = config['GTF']
+# GTF = config['GTF']
 
 # Full path to a folder where output files will be created.
 OUT_DIR = config['OUT_DIR']
@@ -165,8 +165,8 @@ rule tophat_pe:
         idx = rules.index.output.bt2i
     output: 
         bam = join(OUT_DIR, 'Tophat', '{sample}', 'accepted_hits.bam')
-    params: 
-        gtf = GTF
+    # params: 
+    #     gtf = GTF
     log:
         join(OUT_DIR, 'Tophat', '{sample}', 'tophat.map.log')
     benchmark:
@@ -180,7 +180,7 @@ rule tophat_pe:
                 ' && cd ' + join(WORK_DIR, USER, JOB_ID) + 
                 ' && tophat'                                     
                 ' -o {wildcards.sample}/'   
-                ' -G {params.gtf}'                    
+                # ' -G {params.gtf}'                    
                 ' -p 8 ' + os.path.basename(join(dirname(DNA), rstrip(DNA, '.fa'))) + 
                 ' {wildcards.sample}.R1.fq.gz {wildcards.sample}.R2.fq.gz'
                 ' > {log} 2>&1')
@@ -196,8 +196,8 @@ rule tophat_se:
         idx = rules.index.output.bt2i
     output: 
         bam = join(OUT_DIR, 'Tophat', '{sample}', 'accepted_hits.bam')
-    params: 
-        gtf = GTF
+    # params: 
+    #     gtf = GTF
     log:
         join(OUT_DIR, 'Tophat', '{sample}',  'tophat.map.log')
     benchmark:
@@ -211,7 +211,7 @@ rule tophat_se:
                 ' && cd ' + join(WORK_DIR, USER, JOB_ID) + 
                 ' && tophat'                                     
                 ' -o {wildcards.sample}/'   
-                ' -G {params.gtf}'                          
+                # ' -G {params.gtf}'                          
                 ' -p 8 ' + os.path.basename(join(dirname(DNA), rstrip(DNA, '.fa'))) + ' ' +
                 ' {wildcards.sample}.R1.fq.gz'
                 ' > {log} 2>&1')
@@ -226,8 +226,8 @@ rule cufflinks:
         bam = join(OUT_DIR, 'Tophat', '{sample}', 'accepted_hits.bam')
     output: 
         gtf = join(OUT_DIR, 'Cufflinks', '{sample}', 'transcripts.gtf')
-    params:  
-        gtf=GTF
+    # params:  
+    #     gtf=GTF
     log:
         join(OUT_DIR, 'Cufflinks', '{sample}', 'cufflinks.log')
     benchmark:
@@ -239,7 +239,7 @@ rule cufflinks:
               ' && cp {input.bam} ' + join(WORK_DIR, USER, JOB_ID))
         shell('cd ' + join(WORK_DIR, USER, JOB_ID) + 
               ' && cufflinks'
-              ' -g {params.gtf}' 
+              # ' -g {params.gtf}' 
               ' -p 8'
               ' -o ' + join(WORK_DIR, USER, JOB_ID, '{wildcards.sample}') + 
               ' accepted_hits.bam'
@@ -254,7 +254,7 @@ rule cuffmerge:
     output: 
         merged = join(OUT_DIR, 'Cuffmerge', 'merged.gtf')
     params: 
-        gtf =GTF, 
+        # gtf =GTF, 
         fa = DNA
     log:
         join(OUT_DIR, 'Cuffmerge', 'cuffmerge.log')
@@ -272,7 +272,7 @@ rule cuffmerge:
         # run cuffmerge
         shell('cuffmerge'
               ' -o ' + join(OUT_DIR, 'Cuffmerge') +
-              ' -g {params.gtf}'
+              # ' -g {params.gtf}'
               ' --keep-tmp'
               ' -s {params.fa}' 
               ' -p 2 ' + join(OUT_DIR, 'Cuffmerge', 'assemblies.txt') + 
