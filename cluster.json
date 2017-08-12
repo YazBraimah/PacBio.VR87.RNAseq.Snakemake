@@ -1,0 +1,75 @@
+{
+    "__default__": {
+        "q"         : "regular.q",
+        "output"    : "/home/ya76/GitHub_Repositories/PacBio.VR87.RNAseq.Snakemake/output/cluster_logs/default.log",
+        "jname"     : "sm.def",
+        "cores"		: 4,
+        "bl"		: 4,
+        "memory"    : "8G",
+        "time"      : "6:00:00"
+    },
+    "tophat_pe": {
+    	"q"         : "regular.q",
+        "output"    : "/home/ya76/GitHub_Repositories/PacBio.VR87.RNAseq.Snakemake/output/cluster_logs/tophat_pe.log",
+        "jname"     : "sm.tophat",
+        "cores"		: 8,
+        "bl"		: 8,
+        "memory"    : "32G",
+        "time"		: "24:00:00"
+    },
+    "tophat_se": {
+        "q"         : "regular.q",
+        "output"    : "/home/ya76/GitHub_Repositories/PacBio.VR87.RNAseq.Snakemake/output/cluster_logs/tophat_se.log",
+        "jname"     : "sm.tophat",
+        "cores"     : 8,
+        "bl"        : 8,
+        "memory"    : "32G",
+        "time"      : "24:00:00"
+    },
+	"cufflinks": {
+	   "q"          : "regular.q",
+        "output"    : "/home/ya76/GitHub_Repositories/PacBio.VR87.RNAseq.Snakemake/output/cluster_logs/cufflinks.log",
+        "jname"     : "sm.cflnks",
+        "cores"		: 8,
+        "bl"		: 8,
+        "memory"    : "32G",
+        "time"		: "24:00:00"
+	},
+	"cuffmerge": {
+		"q"         : "regular.q",
+        "output"    : "/home/ya76/GitHub_Repositories/PacBio.VR87.RNAseq.Snakemake/output/cluster_logs/cuffmerge.log",
+        "jname"     : "sm.cffmrg",
+        "cores"		: 4,
+        "bl"		: 4,
+        "memory"    : "8G",
+        "time"		: "2:00:00"
+	},
+	"make_cdna": {
+		"q"         : "regular.q",
+        "output"    : "/home/ya76/GitHub_Repositories/PacBio.VR87.RNAseq.Snakemake/output/cluster_logs/make_cdna.log",
+        "jname"     : "sm.mkcdna",
+        "cores"		: 2,
+        "bl"		: 2,
+        "memory"    : "4G",
+        "time"		: "2:00:00"
+	},
+	"express_pe": {
+		"q"         : "regular.q",
+        "output"    : "/home/ya76/GitHub_Repositories/PacBio.VR87.RNAseq.Snakemake/output/cluster_logs/express_pe.log",
+        "jname"     : "sm.STAR2",
+        "cores"		: 8,
+        "bl"		: 8,
+        "memory"    : "32G",
+        "time"		: "24:00:00"
+	},
+    "express_se": {
+        "q"         : "regular.q",
+        "output"    : "/home/ya76/GitHub_Repositories/PacBio.VR87.RNAseq.Snakemake/output/cluster_logs/express_se.log",
+        "jname"     : "sm.STAR2",
+        "cores"     : 8,
+        "bl"        : 8,
+        "memory"    : "32G",
+        "time"      : "24:00:00"
+    }
+}
+

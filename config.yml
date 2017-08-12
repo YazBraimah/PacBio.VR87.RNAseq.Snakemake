@@ -1,0 +1,13 @@
+# Path to an uncompressed FASTA file with all chromosome sequences.
+DNA: '/home/ya76/GitHub_Repositories/PacBio.VR87.RNAseq.Snakemake/genome/DvirPacBio.fa'
+
+# Path to an uncompressed GTF file with all gene annotations.
+#GTF: ''
+
+# Path to a folder where final files will be written.
+OUT_DIR: '/fs/cbsufsrv5/data1/ya76/Snakemake.Output.Folders/PacBio.VR87.RNAseq.Snakemake'
+HOME_DIR: '/home/ya76/GitHub_Repositories/PacBio.VR87.RNAseq.Snakemake/output'
+
+# Path to a JSON file with samples and their corresponding FASTQ files.
+PE_SAMPLES_JSON: '/home/ya76/GitHub_Repositories/PacBio.VR87.RNAseq.Snakemake/samples_pe.json'
+SE_SAMPLES_JSON: '/home/ya76/GitHub_Repositories/PacBio.VR87.RNAseq.Snakemake/samples_se.json'
