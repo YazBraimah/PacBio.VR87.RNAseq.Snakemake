@@ -36,9 +36,6 @@ configfile: 'config.yml'
 # Full path to an uncompressed FASTA file with all chromosome sequences.
 DNA = config['DNA']
 
-# Full path to an uncompressed GTF file with all gene annotations.
-#GTF = config['GTF']
-
 # Full path to a folder where final output files will be deposited.
 OUT_DIR = config['OUT_DIR']
 WORK_DIR = config['WORK_DIR']
@@ -73,7 +70,6 @@ if not os.path.exists(OUT_DIR):
 rule all: 
     input: 
         join(OUT_DIR, 'MultiQC', 'multiqc_report.html'),
-        join(OUT_DIR, 'StringTie', 'gffcmp.annotated.gtf'),
         join(OUT_DIR, 'ballgown', 'gene_counts.csv'), 
         join(OUT_DIR, 'ballgown', 'transcript_counts.csv')
         
