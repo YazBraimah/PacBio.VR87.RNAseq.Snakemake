@@ -34,31 +34,34 @@ configfile: 'config.yml'
 # Full path to an uncompressed FASTA file with all chromosome sequences.
 DNA = config['DNA']
 
-# Full path to an uncompressed GTF file with known gene annotations.
-# GTF = config['GTF']
+# Full path to an uncompressed GTF file with all gene annotations.
+#GTF = config['GTF']
 
-# Full path to a folder where output files will be created.
+# Full path to a folder where final output files will be deposited.
 OUT_DIR = config['OUT_DIR']
+WORK_DIR = config['WORK_DIR']
+HOME_DIR = config['HOME_DIR']  # the "launch_snakemake.sh" and "config.yml" files should be here
 
-## set the working directory for each job
+## set the usr and job environments for each job (specific for CBSU qsub jobs)
 USER = os.environ.get('USER')
 JOB_ID = os.environ.get('JOB_ID')
-WORK_DIR = "/workdir"
-
-HOME_DIR = config['HOME_DIR']
-# message("The current working directory is " + WORK_DIR)
 
 # Samples and their corresponding filenames.
-# paired-end:
-peFILES = json.load(open(config['PE_SAMPLES_JSON'])) 
-peSAMPLES = sorted(peFILES.keys())           
 # single-end
 seFILES = json.load(open(config['SE_SAMPLES_JSON'])) 
 seSAMPLES = sorted(seFILES.keys())                  
+# paired-end:
+peFILES = json.load(open(config['PE_SAMPLES_JSON'])) 
+peSAMPLES = sorted(peFILES.keys())           
+
 # read both
-#FILES = json.load(open(config['SAMPLES_JSON']))
+# FILES = json.load(open(config['SAMPLES_JSON']))
 combinedSam = [peSAMPLES, seSAMPLES]
 SAMPLES = [y for x in combinedSam for y in x]  
+
+## Create the final output directory if it doesn't already exist
+if not os.path.exists(OUT_DIR):
+            os.makedirs(OUT_DIR)
 
 ##--------------------------------------------------------------------------------------##
 ## RULES
@@ -67,124 +70,119 @@ SAMPLES = [y for x in combinedSam for y in x]
 ## Final expected output(s)
 rule all: 
     input: 
-      expand(join(OUT_DIR, 'Tophat', '{sample}',  'accepted_hits.bam'), sample = SAMPLES),
-      expand(join(OUT_DIR, 'Cufflinks', '{sample}', 'transcripts.gtf'), sample = SAMPLES),
-      expand(join(OUT_DIR, 'fastQC', '{sample}', '{sample}' + '.R1_fastqc.html'), sample = SAMPLES),
-      expand(join(OUT_DIR, 'fastQC', '{sample}', '{sample}' + '.R2_fastqc.html'), sample = peSAMPLES),
-      join(OUT_DIR, 'MultiQC', 'multiqc_report.html'),
-      join(OUT_DIR, 'Cuffmerge', 'merged.gtf'),
-      # expand(join(OUT_DIR, 'Cuffquant', '{sample}',  'abundances.cxb'), sample = SAMPLES),
-      # join(OUT_DIR, 'Cuffnorm', 'expression_data', 'run.info'),
-      expand(join(OUT_DIR, 'eXpress', '{sample}', 'results.xprs'), sample = SAMPLES),
-      join(OUT_DIR, 'eXpress', 'isoform-level_abundances', 'isoforms.TMM.EXPR.matrix'),
-      join(OUT_DIR, 'eXpress', 'gene-level_abundances', 'genes.TMM.EXPR.matrix')
+        join(OUT_DIR, 'MultiQC', 'multiqc_report.html'),
+        join(OUT_DIR, 'StringTie', 'gffcmp.annotated.gtf'),
+        join(OUT_DIR, 'ballgown', 'gene_counts.csv'), 
+        join(OUT_DIR, 'ballgown', 'transcript_counts.csv')
         
+##--------------------------------------------------------------------------------------##
+##--------------------------------------------------------------------------------------##
 
-
-
-## Rule to generate bowtie2 genome index 
-rule index:
+## Rule to make HISAT2 index
+rule hisat2_index:
     input:
         dna = DNA
     output:
-        index = join(dirname(DNA), rstrip(DNA, '.fa') + '.rev.1.bt2'),
-        bt2i = join(dirname(DNA), rstrip(DNA, '.fa') + '.ok')
+        idx = expand(join(HOME_DIR, 'hisat2_index', rstrip(os.path.basename(DNA), '.fa') + '_tran.{digit}.ht2'), digit = list(range(1,9))),
+        chkpnt = join(HOME_DIR, 'hisat2_index', 'index.complete')
     log:
-        join(dirname(DNA), 'bt2.index.log')
+        join(HOME_DIR, 'hisat2_index', 'hs2.index.log')
     benchmark:
-        join(dirname(DNA), 'bt2.index.benchmark.tsv')
+        join(HOME_DIR, 'hisat2_index', 'hs2.index.benchmark.tsv')
     message: 
-        """--- Building bowtie2 genome index """
+        """--- Building HISAT-2 genome index """
     run:
-        shell('samtools faidx {input.dna}')
-        shell('bowtie2-build {input.dna} ' + join(dirname(DNA), rstrip(DNA, '.fa')) + ' > {log} 2>&1')
-        shell('touch ' + join(dirname(DNA), rstrip(DNA, '.fa') + '.ok'))
+        if not os.path.exists(join(HOME_DIR, 'hisat2_index')):
+            os.makedirs(join(HOME_DIR, 'hisat2_index'))
+        shell('samtools faidx ' + join(HOME_DIR, 'hisat2_index', os.path.basename(DNA)))
+        shell('hisat2-build --ss ' + join(HOME_DIR, 'hisat2_index', os.path.basename(DNA)) + 
+              ' ' + join(HOME_DIR, 'hisat2_index', rstrip(os.path.basename(DNA), '.fa') + '_tran') + ' > {log} 2>&1')
+        shell('touch ' + join(HOME_DIR, 'hisat2_index', 'index.complete'))
 
+    #--------------------------------------------------------------------------------------##
+##--------------------------------------------------------------------------------------##
 
+## Rule to check raw SE read quality
+rule fastqcSE:
+    input:
+        r1 = lambda wildcards: seFILES[wildcards.sample]['R1']
+    output:
+        r1 = join(OUT_DIR, 'fastQC', '{sample}' + '.R1_fastqc.html')
+    log:
+        join(OUT_DIR, 'fastQC', '{sample}' + '.fastQC_se.log')
+    benchmark:
+        join(OUT_DIR, 'fastQC', '{sample}' + '.fastQC_se.benchmark.tsv')
+    message: 
+        """--- Checking read quality of SE sample "{wildcards.sample}" with FastQC """
+    run:
+        if not os.path.exists(join(OUT_DIR, 'fastQC')):
+            os.makedirs(join(OUT_DIR, 'fastQC'))
 
-# Rule to check PE read quality
-rule fastqc_pe:
+        shell('mkdir -p ' + join(WORK_DIR, USER, JOB_ID) +
+                ' && cp {input.r1} ' + join(WORK_DIR, USER, JOB_ID) +
+                ' && cd ' + join(WORK_DIR, USER, JOB_ID) + 
+                ' && fastqc {wildcards.sample}.R1.fq.gz' 
+                ' > {log} 2>&1'
+                ' && mv ' + join(WORK_DIR, USER, JOB_ID) + '/*fastqc* ' + join(OUT_DIR, 'fastQC'))
+        shell('rm -r ' + join(WORK_DIR, USER, JOB_ID))
+
+##--------------------------------------------------------------------------------------##
+##--------------------------------------------------------------------------------------##
+
+## Rule to check raw PE read quality
+rule fastqcPE:
     input:
         r1 = lambda wildcards: peFILES[wildcards.sample]['R1'],
         r2 = lambda wildcards: peFILES[wildcards.sample]['R2']
     output:
-        r1 = join(OUT_DIR, 'fastQC', '{sample}', '{sample}' + '.R1_fastqc.html'),
-        r2 = join(OUT_DIR, 'fastQC', '{sample}', '{sample}' + '.R2_fastqc.html')
+        r1 = join(OUT_DIR, 'fastQC', '{sample}' + '.R1_fastqc.html'),
+        r2 = join(OUT_DIR, 'fastQC', '{sample}' + '.R2_fastqc.html')
     log:
-        join(OUT_DIR, 'fastQC', '{sample}', 'fastQC_pe.log')
+        join(OUT_DIR, 'fastQC', '{sample}' + '.fastQC_init_pe.log')
     benchmark:
-        join(OUT_DIR, 'fastQC', '{sample}', 'fastQC_pe.benchmark.tsv')
+        join(OUT_DIR, 'fastQC', '{sample}' + '.fastQC_init_pe.benchmark.tsv')
     message: 
-        """--- Checking trimmed read quality of sample "{wildcards.sample}" with FastQC """
+        """--- Checking read quality of PE sample "{wildcards.sample}" with FastQC """
     run:
         if not os.path.exists(join(OUT_DIR, 'fastQC')):
             os.makedirs(join(OUT_DIR, 'fastQC'))
 
         shell('mkdir -p ' + join(WORK_DIR, USER, JOB_ID) +
-              ' && cp {input.r1} {input.r2} ' + join(WORK_DIR, USER, JOB_ID) +
-              ' && cd ' + join(WORK_DIR, USER, JOB_ID) + 
+                ' && cp {input.r1} {input.r2} ' + join(WORK_DIR, USER, JOB_ID) +
+                ' && cd ' + join(WORK_DIR, USER, JOB_ID) + 
                 ' && fastqc {wildcards.sample}.R1.fq.gz {wildcards.sample}.R2.fq.gz' 
-                ' > {log} 2>&1')
-        shell('cd ' + join(WORK_DIR, USER, JOB_ID) + ' && rm {wildcards.sample}.R1.fq.gz {wildcards.sample}.R2.fq.gz')
-        shell('mv ' + join(WORK_DIR, USER, JOB_ID) + '/* ' + join(OUT_DIR, 'fastQC', '{wildcards.sample}'))
+                ' > {log} 2>&1'
+                ' && mv ' + join(WORK_DIR, USER, JOB_ID) + '/*fastqc* ' + join(OUT_DIR, 'fastQC'))
         shell('rm -r ' + join(WORK_DIR, USER, JOB_ID))
 
+##--------------------------------------------------------------------------------------##
+##--------------------------------------------------------------------------------------##
 
-## Rule to check SE read quality
-rule fastqc_se:
+## Rule to map PE reads with HISAT2
+rule hisat2_se_mapping:
     input:
         r1 = lambda wildcards: seFILES[wildcards.sample]['R1']
     output:
-        r1 = join(OUT_DIR, 'fastQC', '{sample}', '{sample}' + '.R1_fastqc.html')
+        bam = join(OUT_DIR, 'HISAT-2', '{sample}', '{sample}' + '.csorted.bowtie2.bam')
     log:
-        join(OUT_DIR, 'fastQC', '{sample}', 'fastQC_pe.log')
+        join(OUT_DIR, 'HISAT-2', '{sample}', 'hs2_map_se.log')
     benchmark:
-        join(OUT_DIR, 'fastQC', '{sample}', 'fastQC_pe.benchmark.tsv')
+        join(OUT_DIR, 'HISAT-2', '{sample}', 'hs2_map_se.benchmark.tsv')
     message: 
-        """--- Checking trimmed read quality of sample "{wildcards.sample}" with FastQC """
+        """--- Mapping SE reads for sample {wildcards.sample} to genome with HISAT-2 """
     run:
-        if not os.path.exists(join(OUT_DIR, 'fastQC')):
-            os.makedirs(join(OUT_DIR, 'fastQC'))
-
         shell('mkdir -p ' + join(WORK_DIR, USER, JOB_ID) +
-              ' && cp {input.r1} ' + join(WORK_DIR, USER, JOB_ID) +
-              ' && cd ' + join(WORK_DIR, USER, JOB_ID) + 
-                ' && fastqc {wildcards.sample}.R1.fq.gz' 
-                ' > {log} 2>&1')
-        shell('cd ' + join(WORK_DIR, USER, JOB_ID) + ' && rm {wildcards.sample}.R1.fq.gz')
-        shell('mv ' + join(WORK_DIR, USER, JOB_ID) + '/* ' + join(OUT_DIR, 'fastQC', '{wildcards.sample}'))
-        shell('rm -r ' + join(WORK_DIR, USER, JOB_ID))
-
-
-
-## Rule for mapping PE reads to the genome with Tophat
-rule tophat_pe:
-    input:
-        r1 = lambda wildcards: peFILES[wildcards.sample]['R1'],
-        r2 = lambda wildcards: peFILES[wildcards.sample]['R2'],
-        idx = rules.index.output.bt2i
-    output: 
-        bam = join(OUT_DIR, 'Tophat', '{sample}', 'accepted_hits.bam')
-    # params: 
-    #     gtf = GTF
-    log:
-        join(OUT_DIR, 'Tophat', '{sample}', 'tophat.map.log')
-    benchmark:
-        join(OUT_DIR, 'Tophat', '{sample}', 'tophat.map.benchmark.tsv')
-    message: 
-        """--- Mapping PE sample "{wildcards.sample}" with Tophat."""
-    run: 
-        shell('mkdir -p ' + join(WORK_DIR, USER, JOB_ID) + 
-                ' && cp {input.r1} {input.r2} ' + join(WORK_DIR, USER, JOB_ID) + 
-                ' && cp ' + join(dirname(DNA), rstrip(DNA, '.fa') + '*') + ' ' +  join(WORK_DIR, USER, JOB_ID) +
+                ' && cp ' + join(dirname(DNA), rstrip(os.path.basename(DNA), '.fa') + '*') + ' ' + join(WORK_DIR, USER, JOB_ID) +
+                ' && cp ' + join(INDEX, '*') + ' ' + join(WORK_DIR, USER, JOB_ID) +
+                ' && cp {input.r1} ' + join(WORK_DIR, USER, JOB_ID) +
                 ' && cd ' + join(WORK_DIR, USER, JOB_ID) + 
-                ' && tophat'                                     
-                ' -o {wildcards.sample}/'   
-                # ' -G {params.gtf}'                    
-                ' -p 8 ' + os.path.basename(join(dirname(DNA), rstrip(DNA, '.fa'))) + 
-                ' {wildcards.sample}.R1.fq.gz {wildcards.sample}.R2.fq.gz'
-                ' > {log} 2>&1')
-        shell('mv ' + join(WORK_DIR, USER, JOB_ID, '{wildcards.sample}') + '/* ' + join(OUT_DIR, 'Tophat', '{wildcards.sample}'))
+                ' && (hisat2'
+                ' -p 16'
+                ' --dta'
+                ' -x ' + join(rstrip(os.path.basename(DNA), '.fa') + '_tran') +
+                ' -U {wildcards.sample}.R1.fq.gz) 2>{log}'
+                ' | samtools sort -@ 8 -o csorted.bowtie2.bam -')
+        shell('mv ' + join(WORK_DIR, USER, JOB_ID, 'csorted.bowtie2.bam') + ' ' + join(OUT_DIR, 'HISAT-2', '{wildcards.sample}', '{wildcards.sample}' + '.csorted.bowtie2.bam'))
         shell('rm -r ' + join(WORK_DIR, USER, JOB_ID))
 
 
